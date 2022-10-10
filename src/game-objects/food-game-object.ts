@@ -1,8 +1,8 @@
-import { preloadTextureList } from "../common/assets";
-import { getRandomIndex } from "../common/sets";
-import { ScheduleService } from "../services/schedule-service";
-import { VarService } from "../services/var-service";
-import { GameObjectGeneralRenderingBlueprint, GameObjectTypeEnum } from "../types/game-types";
+import { preloadTextureList } from '../common/assets';
+import { getRandomIndex } from '../common/sets';
+import { ScheduleService } from '../services/schedule-service';
+import { VarService } from '../services/var-service';
+import { GameObjectGeneralRenderingBlueprint, GameObjectTypeEnum } from '../types/game-types';
 
 export class FoodGameObject {
   static onCreate() {
@@ -17,7 +17,7 @@ export class FoodGameObject {
         'assets/game-objects/food-game-object/chicken.png',
         'assets/game-objects/food-game-object/jam.png',
         'assets/game-objects/food-game-object/wine.png',
-      ]
+      ],
     };
 
     preloadTextureList(textures);
@@ -32,7 +32,7 @@ export class FoodGameObject {
         yThresholdMin: 3.0,
         yThresholdMax: 3.4,
         yMin: 10.0,
-        yStep: 0.1
+        yStep: 0.1,
       },
       angularVelocity: 0.05,
       pointsGain: 10.0,
@@ -41,11 +41,11 @@ export class FoodGameObject {
     const structure: GameObjectGeneralRenderingBlueprint = {
       type: GameObjectTypeEnum.Sprite,
       props: {
-        texture: textures.food[state.foodType]
+        texture: textures.food[state.foodType],
       },
       position: [0.0, 0.0, 0.0],
       rotation: [0.0, 0.0, 0.0],
-      scale: [1.0, 1.0, 1.0]
+      scale: [1.0, 1.0, 1.0],
     };
 
     const reset = () => {
@@ -55,7 +55,7 @@ export class FoodGameObject {
       structure.position[1] -= state.position.yMin;
 
       state.foodType = getRandomIndex(textures.food);
-      
+
       structure.props.texture = textures.food[state.foodType];
       structure.needsUpdate = true;
     };
@@ -71,7 +71,10 @@ export class FoodGameObject {
       structure.position[1] += state.angularVelocity;
       structure.rotation[2] += state.position.yStep * state.randomSeed;
 
-      if (structure.position[1] >= state.position.yThresholdMin && heroPosition === state.foodPosition) {
+      if (
+        structure.position[1] >= state.position.yThresholdMin &&
+        heroPosition === state.foodPosition
+      ) {
         VarService.setVar('foodCollected', true);
 
         const currentPoints = VarService.getVar<number>('playerPoints');
@@ -91,4 +94,4 @@ export class FoodGameObject {
 
     return structure;
   }
-};
+}

@@ -1,9 +1,9 @@
-import { preloadTextureList } from "../common/assets";
-import { LevelView } from "../game-views/level-view";
-import { InputService } from "../services/input-service";
-import { ParserService } from "../services/parser-service";
-import { ScheduleService } from "../services/schedule-service";
-import { GameObjectGeneralRenderingBlueprint, GameObjectTypeEnum } from "../types/game-types";
+import { preloadTextureList } from '../common/assets';
+import { LevelView } from '../game-views/level-view';
+import { InputService } from '../services/input-service';
+import { ParserService } from '../services/parser-service';
+import { ScheduleService } from '../services/schedule-service';
+import { GameObjectGeneralRenderingBlueprint, GameObjectTypeEnum } from '../types/game-types';
 
 export class MenuUiGameObject {
   static onCreate() {
@@ -11,17 +11,17 @@ export class MenuUiGameObject {
       uiElements: [
         'assets/game-objects/menu-ui-game-object/background-wheel.png',
         'assets/game-objects/menu-ui-game-object/background.png',
-      ]
+      ],
     });
 
     const backgroundWheelStructure: GameObjectGeneralRenderingBlueprint = {
       type: GameObjectTypeEnum.Sprite,
       props: {
-        texture: 'assets/game-objects/menu-ui-game-object/background-wheel.png'
+        texture: 'assets/game-objects/menu-ui-game-object/background-wheel.png',
       },
       position: [-4.0, 4.0, 0.0],
       rotation: [0.0, 0.0, 0.0],
-      scale: [15.0, 15.0, 15.0]
+      scale: [15.0, 15.0, 15.0],
     };
 
     const structure: GameObjectGeneralRenderingBlueprint = {
@@ -35,12 +35,12 @@ export class MenuUiGameObject {
         {
           type: GameObjectTypeEnum.Sprite,
           props: {
-            texture: 'assets/game-objects/menu-ui-game-object/background.png'
+            texture: 'assets/game-objects/menu-ui-game-object/background.png',
           },
           position: [0.0, 1.0, 0.0],
           rotation: [0.0, 0.0, 0.0],
           scale: [5.0, 5.0, 5.0],
-          needsUpdate: true
+          needsUpdate: true,
         },
         {
           type: GameObjectTypeEnum.Label,
@@ -48,13 +48,13 @@ export class MenuUiGameObject {
             fontFamily: 'kenney-mini',
             fontSize: 0.2,
             color: 0xffffff,
-            text: 'Press Space to Play'
+            text: 'Press Space to Play',
           },
           position: [0.0, -4.0, 0.0],
           rotation: [0.0, 0.0, 0.0],
           scale: [1.0, 1.0, 1.0],
-        }
-      ]
+        },
+      ],
     };
 
     InputService.registerKeyListener(' ', (pressed) => {
@@ -69,4 +69,4 @@ export class MenuUiGameObject {
 
     return structure;
   }
-};
+}

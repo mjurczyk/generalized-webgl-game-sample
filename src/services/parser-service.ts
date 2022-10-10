@@ -1,5 +1,11 @@
-import { GameViewStructureTree, GameViewClass, GameObjectBaseBlueprint, GameViewRenderingTree, GameObjectGeneralRenderingBlueprint } from "../types/game-types";
-import { ScheduleService } from "./schedule-service";
+import {
+  GameViewStructureTree,
+  GameViewClass,
+  GameObjectBaseBlueprint,
+  GameViewRenderingTree,
+  GameObjectGeneralRenderingBlueprint,
+} from '../types/game-types';
+import { ScheduleService } from './schedule-service';
 
 class ParserServiceClass {
   paused = false;
@@ -34,12 +40,12 @@ class ParserServiceClass {
       this.lastFrameTimestamp = now;
       return;
     }
-    
+
     if (dt >= fixedDelta) {
       this.lastFrameTimestamp = now;
 
       const steps = Math.floor(dt / fixedDelta);
-      
+
       for (let i = 0; i < steps; i++) {
         ScheduleService.onFrame(this.currentFrameIndex++);
       }
@@ -64,12 +70,14 @@ class ParserServiceClass {
   }
 
   parseViewStructure(structure: GameViewStructureTree) {
-    const traverseRenderingBlueprint = (blueprint: GameObjectGeneralRenderingBlueprint): GameObjectGeneralRenderingBlueprint => {
+    const traverseRenderingBlueprint = (
+      blueprint: GameObjectGeneralRenderingBlueprint
+    ): GameObjectGeneralRenderingBlueprint => {
       if (blueprint.children) {
         blueprint.children = blueprint.children.map((child, index) => {
           blueprint.children![index] = traverseRenderingBlueprint(child);
           child.id = ++this.uuid;
-  
+
           return child;
         });
       }
@@ -77,11 +85,14 @@ class ParserServiceClass {
       return blueprint;
     };
 
-    const traverse = (node: GameObjectBaseBlueprint, parent: GameObjectGeneralRenderingBlueprint | GameViewRenderingTree) => {
+    const traverse = (
+      node: GameObjectBaseBlueprint,
+      parent: GameObjectGeneralRenderingBlueprint | GameViewRenderingTree
+    ) => {
       node.id = ++this.uuid;
 
       const renderingBlueprint = node.gameObject.onCreate();
-      
+
       renderingBlueprint.id = node.id;
       renderingBlueprint.position = node.initialPosition || [0.0, 0.0, 0.0];
       renderingBlueprint.rotation = node.initialRotation || [0.0, 0.0, 0.0];
@@ -96,13 +107,13 @@ class ParserServiceClass {
       }
 
       if (node.children) {
-        node.children.forEach(child => traverse(child, this.renderingStructure[node.id!]));
+        node.children.forEach((child) => traverse(child, this.renderingStructure[node.id!]));
       }
 
       traverseRenderingBlueprint(renderingBlueprint);
     };
 
-    structure.forEach(child => traverse(child, this.renderingStructure));
+    structure.forEach((child) => traverse(child, this.renderingStructure));
   }
 }
 

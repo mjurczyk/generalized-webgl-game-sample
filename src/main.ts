@@ -1,8 +1,8 @@
-import { MenuView } from "./game-views/menu-view";
-import { AssetsService } from "./services/assets-service";
-import { InputService } from "./services/input-service";
-import { ParserService } from "./services/parser-service";
-import { PixiRenderService, ThreeRenderService } from "./services/render-service";
+import { MenuView } from './game-views/menu-view';
+import { AssetsService } from './services/assets-service';
+import { InputService } from './services/input-service';
+import { ParserService } from './services/parser-service';
+import { PixiRenderService, ThreeRenderService } from './services/render-service';
 
 InputService.init();
 

@@ -1,8 +1,12 @@
 import * as Three from 'three';
-import { GameObjectGeneralRenderingBlueprint, GameObjectRenderingBlueprint, GameObjectTypeEnum } from '../../types/game-types';
+import {
+  GameObjectGeneralRenderingBlueprint,
+  GameObjectRenderingBlueprint,
+  GameObjectTypeEnum,
+} from '../../types/game-types';
 import { AssetsService } from '../assets-service';
 import { ParserService } from '../parser-service';
-import { IAbstractRenderService, RenderServiceProps } from "./types";
+import { IAbstractRenderService, RenderServiceProps } from './types';
 import { Text as TroikaText } from 'troika-three-text';
 import { frustumBaseFactor } from './shared';
 
@@ -25,7 +29,7 @@ class ThreeRenderServiceClass implements IAbstractRenderService<Three.Object3D> 
 
     const root = document.querySelector(selector || '');
     const viewSize = new Three.Vector2();
-    
+
     if (root) {
       root.appendChild(renderer.domElement);
 
@@ -45,8 +49,8 @@ class ThreeRenderServiceClass implements IAbstractRenderService<Three.Object3D> 
     const frustumSize = frustumBaseFactor;
 
     const camera = new Three.OrthographicCamera(
-      frustumSize * -aspectRatio / 2.0,
-      frustumSize * aspectRatio / 2.0,
+      (frustumSize * -aspectRatio) / 2.0,
+      (frustumSize * aspectRatio) / 2.0,
       -frustumSize / 2.0,
       frustumSize / 2.0,
       -1000.0,
@@ -60,7 +64,7 @@ class ThreeRenderServiceClass implements IAbstractRenderService<Three.Object3D> 
 
     this.scene = scene;
   }
-  
+
   run() {
     if (!this.renderer) {
       return;
@@ -96,7 +100,7 @@ class ThreeRenderServiceClass implements IAbstractRenderService<Three.Object3D> 
 
       this.sceneUuid = currentViewUuid;
     }
-    
+
     if (currentView?.background && this.scene.background instanceof Three.Color) {
       this.scene.background.set(currentView.background);
     }
@@ -104,7 +108,7 @@ class ThreeRenderServiceClass implements IAbstractRenderService<Three.Object3D> 
     if (renderingStructure) {
       const traverse = (node: GameObjectGeneralRenderingBlueprint) => {
         if (node.children) {
-          node.children.forEach(child => traverse(child));
+          node.children.forEach((child) => traverse(child));
         }
 
         if (!node.id) {
@@ -122,12 +126,12 @@ class ThreeRenderServiceClass implements IAbstractRenderService<Three.Object3D> 
         }
 
         if (!binding || (node.needsUpdate && node.type !== GameObjectTypeEnum.Label)) {
-          const renderPerser = ({
+          const renderPerser = {
             [GameObjectTypeEnum.Group]: this.renderGroup,
             [GameObjectTypeEnum.Label]: this.renderLabel,
             [GameObjectTypeEnum.Sprite]: this.renderSprite,
-          })[node.type];
-  
+          }[node.type];
+
           if (renderPerser) {
             const renderedObject = renderPerser.call(this, node);
             const targetParent = binding?.parent || this.scene;
@@ -137,11 +141,14 @@ class ThreeRenderServiceClass implements IAbstractRenderService<Three.Object3D> 
             }
 
             if (node.children?.length) {
-              node.children.forEach(child => this.sceneBindings[child.id!] && renderedObject.add(this.sceneBindings[child.id!]));
+              node.children.forEach(
+                (child) =>
+                  this.sceneBindings[child.id!] && renderedObject.add(this.sceneBindings[child.id!])
+              );
             }
 
             this.sceneBindings[node.id] = renderedObject;
-            
+
             if (targetParent) {
               targetParent.add(renderedObject);
             }
@@ -155,7 +162,7 @@ class ThreeRenderServiceClass implements IAbstractRenderService<Three.Object3D> 
         binding.scale.set(...node.scale);
       };
 
-      renderingStructure.forEach(child => traverse(child));
+      renderingStructure.forEach((child) => traverse(child));
     }
 
     if (!this.paused) {
@@ -168,7 +175,7 @@ class ThreeRenderServiceClass implements IAbstractRenderService<Three.Object3D> 
   }
 
   renderLabel(blueprint: GameObjectGeneralRenderingBlueprint): Three.Object3D {
-    const props = (blueprint as  GameObjectRenderingBlueprint<GameObjectTypeEnum.Label>).props;
+    const props = (blueprint as GameObjectRenderingBlueprint<GameObjectTypeEnum.Label>).props;
     const container = new Three.Object3D();
 
     const troikaText = new TroikaText();
@@ -194,12 +201,12 @@ class ThreeRenderServiceClass implements IAbstractRenderService<Three.Object3D> 
         troikaText._textRenderInfo.sdfTexture.dispose();
       }
     });
-    
+
     return container;
   }
 
   renderSprite(blueprint: GameObjectGeneralRenderingBlueprint): Three.Object3D {
-    const props = (blueprint as  GameObjectRenderingBlueprint<GameObjectTypeEnum.Sprite>).props;
+    const props = (blueprint as GameObjectRenderingBlueprint<GameObjectTypeEnum.Sprite>).props;
     const container = new Three.Object3D();
 
     if (this.internalSpriteCache[props.texture]) {
@@ -225,11 +232,13 @@ class ThreeRenderServiceClass implements IAbstractRenderService<Three.Object3D> 
         new Three.PlaneGeometry(1.0, 1.0),
         new Three.MeshBasicMaterial({
           map: texture,
-          transparent: true
+          transparent: true,
         })
       );
       mesh.scale.y = -texture.image.height / 80.0;
-      mesh.scale.x = -mesh.scale.y * ((texture.image as HTMLImageElement).width / (texture.image as HTMLImageElement).height);
+      mesh.scale.x =
+        -mesh.scale.y *
+        ((texture.image as HTMLImageElement).width / (texture.image as HTMLImageElement).height);
       mesh.scale.z = -1.0;
 
       texture.needsUpdate = true;
@@ -246,7 +255,7 @@ class ThreeRenderServiceClass implements IAbstractRenderService<Three.Object3D> 
       return;
     }
 
-    renderable.traverse(child => {
+    renderable.traverse((child) => {
       AssetsService.dispose(child);
     });
 

@@ -22,7 +22,7 @@ class InputServiceClass {
     if (this.listeners[keyCode]) {
       const once = this.keys[keyCode] === false;
 
-      this.listeners[keyCode].forEach(listener => {
+      this.listeners[keyCode].forEach((listener) => {
         listener(true, once);
       });
     }
@@ -36,7 +36,7 @@ class InputServiceClass {
     if (this.listeners[keyCode]) {
       const once = this.keys[keyCode] === true;
 
-      this.listeners[keyCode].forEach(listener => {
+      this.listeners[keyCode].forEach((listener) => {
         listener(false, once);
       });
     }
@@ -53,7 +53,7 @@ class InputServiceClass {
   }
 
   disposeAll() {
-    Object.keys(this.listeners).forEach(key => {
+    Object.keys(this.listeners).forEach((key) => {
       delete this.listeners[key];
     });
 

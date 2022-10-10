@@ -1,5 +1,5 @@
-import { MenuUiGameObject } from "../game-objects/menu-ui-game-object";
-import { GameViewClass, GameViewStructureTree } from "../types/game-types";
+import { MenuUiGameObject } from '../game-objects/menu-ui-game-object';
+import { GameViewClass, GameViewStructureTree } from '../types/game-types';
 
 export class MenuView extends GameViewClass {
   structure: GameViewStructureTree = [
@@ -8,5 +8,5 @@ export class MenuView extends GameViewClass {
     },
   ];
 
-  background = 0xFFB243;
+  background = 0xffb243;
 }

@@ -1,4 +1,4 @@
-import { GameObjectGeneralRenderingBlueprint, GameObjectTypeEnum } from "../types/game-types";
+import { GameObjectGeneralRenderingBlueprint, GameObjectTypeEnum } from '../types/game-types';
 
 export class TrackGameObject {
   static onCreate() {
@@ -12,15 +12,15 @@ export class TrackGameObject {
         {
           type: GameObjectTypeEnum.Sprite,
           props: {
-            texture: 'assets/game-objects/track-game-object/track-background.png'
+            texture: 'assets/game-objects/track-game-object/track-background.png',
           },
           position: [0.0, 0.0, 0.0],
           rotation: [0.0, 0.0, 0.0],
-          scale: [1.5, 1.5, 1.5]
-        }
-      ]
+          scale: [1.5, 1.5, 1.5],
+        },
+      ],
     };
 
     return structure;
   }
-};
+}

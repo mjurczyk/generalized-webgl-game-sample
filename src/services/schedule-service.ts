@@ -1,11 +1,11 @@
-import { Listener } from "../common/types";
+import { Listener } from '../common/types';
 
 class ScheduleServiceClass {
   listeners: Array<Listener<{ currentFrame: number }, void>> = [];
   intervals: Array<number> = [];
 
   onFrame(currentFrame: number) {
-    this.listeners.forEach(listener => listener({ currentFrame }));
+    this.listeners.forEach((listener) => listener({ currentFrame }));
   }
 
   registerFrameListener(listener: Listener<{ currentFrame: number }, void>) {
@@ -14,7 +14,7 @@ class ScheduleServiceClass {
 
   registerInterval(listener: Listener<void, void>, timeout: number) {
     const interval = setInterval(listener, timeout);
-    
+
     this.intervals.push(interval);
   }
 
@@ -23,7 +23,7 @@ class ScheduleServiceClass {
   }
 
   disposeAll() {
-    this.intervals.forEach(interval => {
+    this.intervals.forEach((interval) => {
       clearInterval(interval);
     });
 

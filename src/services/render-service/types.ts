@@ -1,4 +1,4 @@
-import { GameObjectGeneralRenderingBlueprint } from "../../types/game-types";
+import { GameObjectGeneralRenderingBlueprint } from '../../types/game-types';
 
 export type RenderServiceProps = {
   selector?: string;
@@ -6,7 +6,7 @@ export type RenderServiceProps = {
 
 export interface IAbstractRenderService<TRenderElement> {
   paused: boolean;
-  
+
   sceneUuid: number;
   sceneBindings: Record<number, TRenderElement>;
 

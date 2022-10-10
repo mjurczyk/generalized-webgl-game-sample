@@ -8,9 +8,9 @@ This repo is based on a simplified [mjurczyk/three-default-cube](https://github.
 
 ## Structure
 
-* `services/`: directory containing logic implementations
-* `game-views/`: directory containing view structures
-* `game-objects/`: directory containing game objects and their logic
+- `services/`: directory containing logic implementations
+- `game-views/`: directory containing view structures
+- `game-objects/`: directory containing game objects and their logic
 
 ### RenderService
 

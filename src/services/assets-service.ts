@@ -1,4 +1,4 @@
-import { Listener } from "../common/types";
+import { Listener } from '../common/types';
 
 type AssetCacheType = {
   textures: Record<string, HTMLImageElement>;
@@ -9,17 +9,17 @@ class AssetsServiceClass {
   queue: Array<Promise<any>> = [];
   cache: AssetCacheType = {
     textures: {},
-    fonts: {}
+    fonts: {},
   };
   disposables: Array<Listener<void, void>> = [];
 
   preloadTexture(id: string) {
     const image = new Image();
-    const promisable = new Promise<void>(resolve => {
+    const promisable = new Promise<void>((resolve) => {
       image.onload = () => {
         this.cache.textures[id] = image;
 
-        this.queue = this.queue.filter(match => match !== promisable);
+        this.queue = this.queue.filter((match) => match !== promisable);
         resolve();
       };
     });
@@ -51,11 +51,11 @@ class AssetsServiceClass {
     } else {
       let image = new Image();
 
-      const promisable = new Promise<void>(resolve => {
+      const promisable = new Promise<void>((resolve) => {
         image.onload = () => {
           this.cache.textures[id] = image;
 
-          this.queue = this.queue.filter(match => match !== promisable);
+          this.queue = this.queue.filter((match) => match !== promisable);
           resolve();
         };
       });
@@ -82,7 +82,7 @@ class AssetsServiceClass {
   }
 
   disposeAll() {
-    this.disposables.forEach(disposable => {
+    this.disposables.forEach((disposable) => {
       disposable();
     });
 

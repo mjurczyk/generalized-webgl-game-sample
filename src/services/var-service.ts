@@ -8,7 +8,7 @@ class VarServiceClass {
     if (!this.listeners[id]) {
       this.listeners[id] = [];
     } else {
-      this.listeners[id].forEach(callback => {
+      this.listeners[id].forEach((callback) => {
         if (!callback) {
           return;
         }
@@ -33,7 +33,7 @@ class VarServiceClass {
   }
 
   disposeAll() {
-    Object.keys(this.listeners).forEach(key => {
+    Object.keys(this.listeners).forEach((key) => {
       delete this.listeners[key];
     });
 

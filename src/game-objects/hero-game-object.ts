@@ -1,16 +1,16 @@
-import { InputService } from "../services/input-service";
-import { ScheduleService } from "../services/schedule-service";
-import { VarService } from "../services/var-service";
-import { GameObjectGeneralRenderingBlueprint, GameObjectTypeEnum } from "../types/game-types";
-import { lerp } from "../common/math";
-import { preloadTextureList } from "../common/assets";
+import { InputService } from '../services/input-service';
+import { ScheduleService } from '../services/schedule-service';
+import { VarService } from '../services/var-service';
+import { GameObjectGeneralRenderingBlueprint, GameObjectTypeEnum } from '../types/game-types';
+import { lerp } from '../common/math';
+import { preloadTextureList } from '../common/assets';
 
 enum HeroAnimationState {
   idle,
   runLeft,
   runRight,
-  attack
-};
+  attack,
+}
 
 export class HeroGameObject {
   static onCreate() {
@@ -41,7 +41,7 @@ export class HeroGameObject {
         'assets/game-objects/hero-game-object/knight-iso-char-slice-up-0.png',
         'assets/game-objects/hero-game-object/knight-iso-char-slice-up-1.png',
         'assets/game-objects/hero-game-object/knight-iso-char-slice-up-2.png',
-      ]
+      ],
     };
 
     preloadTextureList(textures);
@@ -56,26 +56,29 @@ export class HeroGameObject {
         maxSpeed: 1.0,
         minSpeed: 0.2,
         acceleration: 0.2,
-        step: 0.5
+        step: 0.5,
       },
       position: {
         xMin: -1.95,
-        xStep: 1.3
-      }
+        xStep: 1.3,
+      },
     };
 
     const structure: GameObjectGeneralRenderingBlueprint = {
       type: GameObjectTypeEnum.Sprite,
       props: {
-        texture: textures[HeroAnimationState.idle][0]
+        texture: textures[HeroAnimationState.idle][0],
       },
       position: [0.0, 0.0, 0.0],
       rotation: [0.0, 0.0, 0.0],
-      scale: [1.0, 1.0, 1.0]
+      scale: [1.0, 1.0, 1.0],
     };
 
     const setAnimation = (animation: keyof typeof textures) => {
-      if (state.currentAnimation === HeroAnimationState.attack && state.currentFrame % textures[state.currentAnimation].length !== 0) {
+      if (
+        state.currentAnimation === HeroAnimationState.attack &&
+        state.currentFrame % textures[state.currentAnimation].length !== 0
+      ) {
         return;
       }
 
@@ -86,9 +89,8 @@ export class HeroGameObject {
       state.currentAnimation = animation;
     };
 
-
     VarService.setVar('heroPosition', 0);
-    VarService.getVar<number>('heroPosition', value => {
+    VarService.getVar<number>('heroPosition', (value) => {
       state.heroPosition = value * state.position.xStep + state.position.xMin;
     });
 
@@ -117,15 +119,27 @@ export class HeroGameObject {
       const foodCollected = VarService.getVar('foodCollected');
 
       if (Math.abs(distanceToTarget) < state.movement.minSpeed) {
-        structure.position[0] = lerp(structure.position[0], state.heroPosition, state.movement.acceleration);
+        structure.position[0] = lerp(
+          structure.position[0],
+          state.heroPosition,
+          state.movement.acceleration
+        );
 
         state.heroMovement = 0.0;
         setAnimation(HeroAnimationState.idle);
       } else if (distanceToTarget > 0.0) {
-        state.heroMovement = lerp(state.heroMovement, -state.movement.maxSpeed, state.movement.acceleration);
+        state.heroMovement = lerp(
+          state.heroMovement,
+          -state.movement.maxSpeed,
+          state.movement.acceleration
+        );
         setAnimation(HeroAnimationState.runLeft);
       } else if (distanceToTarget < 0.0) {
-        state.heroMovement = lerp(state.heroMovement, state.movement.maxSpeed, state.movement.acceleration);
+        state.heroMovement = lerp(
+          state.heroMovement,
+          state.movement.maxSpeed,
+          state.movement.acceleration
+        );
         setAnimation(HeroAnimationState.runRight);
       }
 
@@ -136,10 +150,13 @@ export class HeroGameObject {
 
       structure.position[0] += state.heroMovement * state.movement.step;
 
-      structure.props.texture = textures[state.currentAnimation][state.currentFrame % textures[state.currentAnimation].length];
+      structure.props.texture =
+        textures[state.currentAnimation][
+          state.currentFrame % textures[state.currentAnimation].length
+        ];
       structure.needsUpdate = true;
     });
 
     return structure;
   }
-};
+}

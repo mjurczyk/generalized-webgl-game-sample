@@ -1,35 +1,36 @@
-import { AssetsService } from "../services/assets-service";
-import { InputService } from "../services/input-service";
-import { ScheduleService } from "../services/schedule-service";
-import { VarService } from "../services/var-service";
+import { AssetsService } from '../services/assets-service';
+import { InputService } from '../services/input-service';
+import { ScheduleService } from '../services/schedule-service';
+import { VarService } from '../services/var-service';
 
 // NOTE GameObject types
 export enum GameObjectTypeEnum {
   Group,
   Label,
-  Sprite
-};
+  Sprite,
+}
 
 interface GameObjectBlueprintProps {
-  [GameObjectTypeEnum.Group]: {},
+  [GameObjectTypeEnum.Group]: {};
   [GameObjectTypeEnum.Label]: {
     text: string;
     fontFamily: string;
     fontSize: number;
     color: string | number;
     textAlign?: 'left' | 'right' | 'center';
-  },
+  };
   [GameObjectTypeEnum.Sprite]: {
     texture: string;
-  }
+  };
 }
 
-export type GameObjectGeneralRenderingBlueprint =
-  (GameObjectRenderingBlueprint<GameObjectTypeEnum.Label> |
-  GameObjectRenderingBlueprint<GameObjectTypeEnum.Group> |
-  GameObjectRenderingBlueprint<GameObjectTypeEnum.Sprite>) & {
-    needsUpdate?: boolean;
-  };
+export type GameObjectGeneralRenderingBlueprint = (
+  | GameObjectRenderingBlueprint<GameObjectTypeEnum.Label>
+  | GameObjectRenderingBlueprint<GameObjectTypeEnum.Group>
+  | GameObjectRenderingBlueprint<GameObjectTypeEnum.Sprite>
+) & {
+  needsUpdate?: boolean;
+};
 
 export type GameObjectBaseBlueprint = {
   id?: number;
