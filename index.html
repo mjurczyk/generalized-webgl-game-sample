@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/assets/ui/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Knight, Food, Game</title>
+    <style>
+      body {
+        background: #111111;
+        background-image: url('/assets/ui/background.png');
+        background-size: 128px;
+      }
+
+      .game-viewport {
+        display: inline-block;
+        border: solid 1px #ffffff;
+        width: 450px;
+        height: 800px;
+        border-radius: 8px;
+        overflow: hidden;
+        transition: transform .3s ease-in-out;
+      }
+
+      #app-three {
+        position: absolute;
+        top: 50px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      #app-pixi {
+        position: absolute;
+        top: 50px;
+        right: 50%;
+        transform: translateX(50%);
+      }
+
+      .game-container:hover #app-three {
+        transform: translateY(-25px) translateX(-25%) rotateZ(5deg);
+      }
+
+      .game-container:hover #app-pixi {
+        transform: translateX(25%) rotateZ(-5deg);
+      }
+
+      .subscript {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        padding: 5px 10px;
+        background-color: #ffffff;
+        border-radius: 8px 0 0 0;
+        font-family: 'kenney-blocks';
+        font-size: 12px;
+        user-select: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="game-container">
+      <div id="app-three" class="game-viewport">
+        <div class="subscript">three.js</div>
+      </div>
+      <div id="app-pixi" class="game-viewport">
+        <div class="subscript">pixi.js</div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
